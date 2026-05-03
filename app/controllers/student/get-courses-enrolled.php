@@ -9,8 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
+if (!isset($_GET['student_id'])){
+    echo json_encode([
+        "success" => false,
+        "message" => "missing id"
+    ]);
+    exit;
+}
+
+$student_id = $_GET['student_id'];
+
 try {
-    $stmt = $pdo->query("
+    $stmt = $pdo->prepare("
         SELECT 
             s.subject_code,
             s.subject_name,
@@ -18,9 +28,14 @@ try {
             s.schedule_day,
             s.time_start,
             s.time_end
-        FROM subject AS s
-        LEFT JOIN FACULTY as f ON f.id = s.faculty_id
+        FROM subject as s
+        INNER JOIN enrollment as e ON e.subject_code = s.subject_code
+        INNER JOIN faculty as f ON f.id = s.faculty_id
+        WHERE e.student_id = ?  
     ");
+
+    $stmt->execute([$student_id]);
+
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode([

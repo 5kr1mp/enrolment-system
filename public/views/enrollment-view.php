@@ -1,5 +1,7 @@
 <?php
 include "../../config/config.php";
+
+
 ?>
 <html lang="en">
 <head>
@@ -25,6 +27,10 @@ include "../../config/config.php";
             margin: 1rem 0;
             height: 2px;
             background-color: black;
+        }
+
+        .btn-1, btn-2,btn-3 {
+            padding:0.5rem
         }
 
         #student-profiles-table {
@@ -72,65 +78,66 @@ include "../../config/config.php";
             display: flex;
             flex-direction: column;
         }
-    .enrollment-grid {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-template-rows: auto auto auto;
-        grid-template-areas:
-            "control control"
-            "prof-pic subject"
-            "info subject";
-        gap: 1rem;
-    }
+        .enrollment-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: auto auto auto;
+            grid-template-areas:
+                "control control"
+                "prof-pic subject"
+                "info subject";
+            gap: 1rem;
+        }
 
-    .control {
-        grid-area: control;
-        padding: 1rem;
-        border: 1px solid #101122;
-        border-radius: 5px;
-    }
+        .control {
+            grid-area: control;
+            padding: 1rem;
+            border-radius: 5px;
+        }
 
-    .prof-pic {
-        grid-area: prof-pic;
-        padding: 1rem;
-        border: 1px solid #101122;
-        border-radius: 5px;
-    }
+        .prof-pic {
+            grid-area: prof-pic;
+            padding: 1rem;
+            border-radius: 5px;
+        }
 
-    .info {
-        grid-area: info;
-        padding: 1rem;
-        border: 1px solid #101122;
-        border-radius: 5px;
-    }
+        .info {
+            grid-area: info;
+            padding: 1rem;
+            border-radius: 5px;
+        }
 
-    .subject {
-        grid-area: subject;
-        padding: 1rem;
-        border: 1px solid #101122;
-        border-radius: 5px;
-    }
+        .subject {
+            grid-area: subject;
+            padding: 1rem;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
+<header class="flex flex-row just-between items-center">
+    <h1><a href="/enrollment-system/public/index.php"> Student Enrollment</a></h1>
+    <ul class="flex just-between items-center">
+        <li><a href="/enrollment-system/public/index.php">Enrollment</a></li>
+        <li><a href="/enrollment-system/public/views/student-management.php">Students</a></li>
+        <li><a href="/enrollment-system/public/views/faculty-management.php">Faculties</a></li>
+        <li><a href="/enrollment-system/public/views/subject-management.php">Subject</a></li>
+    </ul>
+</header>
 <main>
-    <h2>Enrollment View</h2>
-    <hr>
+
 
     <div class="enrollment-grid">
-
+        
         <!-- CONTROL -->
         <!-- CONTROL -->
         <section class="control">
-            <div class="flex flex-row gap-1 items-center">
-                <strong>Enrollment ID:</strong>
-                <span>#ENR-001</span>
-            </div>
-
-            <div class="flex flex-row gap-1">
+            <h2>Enrollment</h2>
+            <div class="flex flex-row just-end gap-1">
                 <button class="btn-1">Update Subjects</button>
                 <button class="btn-3">Delete Enrollment</button>
             </div>
+            <hr>
         </section>
 
         <!-- PROFILE PICTURE -->

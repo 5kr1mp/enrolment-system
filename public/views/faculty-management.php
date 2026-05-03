@@ -81,6 +81,9 @@ include "../../config/config.php";
     </style>
 </head>
 <body>
+    <!-- OVERLAYY -->
+    <!-- OVERLAYY -->
+    <!-- OVERLAYY -->
     <div id="overlay" class="hidden">
         <div id="add-faculty-dialog">
             <h2>Add Faculty</h2>
