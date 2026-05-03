@@ -1,6 +1,6 @@
 <?php
 
-include '../../db/db.php';
+include "../../../db/db.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     echo json_encode(['success' => false, 'message' => 'Invalid request method.']);

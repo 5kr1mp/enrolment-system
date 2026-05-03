@@ -15,16 +15,15 @@ if (
     echo json_encode([
         "success"=>false,
         "message"=>"Name and Email must be provided."
-    ]);    
+    ]);
+    exit;
 }
 
-$name = $_POST("name");
-$email = $_POST("email");
-
-// run
-$stmt = $pdo->prepare("INSERT INTO faculty (full_name,email) VALUES (?,?)");
+$name = $_POST["name"];
+$email = $_POST["email"];
 
 try {
+    $stmt = $pdo->prepare("INSERT INTO faculty (full_name,email) VALUES (?,?)");
 
     $stmt->execute([$name,$email]);
     echo json_encode([

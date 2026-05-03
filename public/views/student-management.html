@@ -1,11 +1,8 @@
-<?php
-include "../../config/config.php";
-?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $title ?? "Enrollment System" ?> | Enrollment</title>
+    <title>Enrollment System | Enrollment</title>
     <link rel="icon" type="image/x-icon" href="\enrollment-system\public\resources/favicon.png">
     <link rel="stylesheet" href="\enrollment-system\public\resources\styles\style.css">
     <style>
@@ -81,8 +78,11 @@ include "../../config/config.php";
         <div id="add-student-dialog">
             <h2 id="dialog-title">Add Student</h2>
             <hr>
-            <h3 id="id_heading">Student ID : <span id="student_id"></span></h3>
-            <form action="" method="POST" class="flex flex-col gap-1">
+            <form id="student-details-form" class="flex flex-col gap-1">
+                <div id="id_heading">
+                    <label>Student ID</label>
+                    <input type="text" id="student_id" name="student_id" required>
+                </div>
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" name="full_name" required>
@@ -128,12 +128,12 @@ include "../../config/config.php";
     <!-- HEADER -->
     <!-- HEADER -->
     <header class="flex flex-row just-between items-center">
-        <h1><a href="/enrollment-system/public/index.php"> Student Enrollment</a></h1>
+        <h1><a href="/enrollment-system/public/index.html"> Student Enrollment</a></h1>
         <ul class="flex just-between items-center">
             <li><a href="/enrollment-system/public/index.php">Enrollment</a></li>
-            <li><a href="/enrollment-system/public/views/student-management.php">Students</a></li>
-            <li><a href="/enrollment-system/public/views/faculty-management.php">Faculties</a></li>
-            <li><a href="/enrollment-system/public/views/subject-management.php">Subject</a></li>
+            <li><a href="/enrollment-system/public/views/student-management.html">Students</a></li>
+            <li><a href="/enrollment-system/public/views/faculty-management.html">Faculties</a></li>
+            <li><a href="/enrollment-system/public/views/subject-management.html">Subject</a></li>
         </ul>
     </header>
     <main>
@@ -143,7 +143,7 @@ include "../../config/config.php";
         <!-- CONTROLS -->
         <!-- CONTROLS -->
         <div id="controls" class="flex flex-row just-between">
-            <form action="student-management.php" method="get" class="flex flex-row items-center">
+            <form id="search-form" class="flex flex-row items-center">
                 <div>
                     <label for="search">Search Student: </label>
                     <input type="text" name="s" id="search" placeholder="Name...">
@@ -184,9 +184,40 @@ include "../../config/config.php";
         const tbody = document.querySelector('tbody');
         const addStudentBtn = document.querySelector('#add-student'); 
         const searchBtn = document.querySelector('#add-student'); 
+        const studentForm = document.querySelector('#student-details-form');
+        const searchForm = document.querySelector('#search-form')
+
+        searchForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            searchStudents();
+        })
+
+        studentForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+        })
+
 
         function loadStudents(){
 
+        }
+
+        function addNewStudent(){
+
+        }
+
+        async function searchStudents(){
+            const formData = new FormData(searchForm);
+            const name = formData.get("s").trim();
+
+            if (!name) {
+                console.log("Empty search");
+                return;
+            }
+
+            const students = await fetch(`/enrollment-system/app/controllers/student/get-students-by-name.php?name=${encodeURIComponent(name)}`)
+                .then(res => res.json());
+
+            console.log(students);
         }
 
         function createStudentRow(student){
