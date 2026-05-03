@@ -1,76 +1,64 @@
 <?php
 
-$dbHost = getenv("DB_HOST") ?? "localhost";
-$dbUser = getenv("DB_USER") ?? "root";
-$dbPass = getenv("DB_PASS") ?? "";
+$dbPath = __DIR__ . "/database.db";
 
-try {
-    $pdo = new PDO("mysql:host=$dbHost",$dbUser,$dbPass,
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+$pdo = new PDO("sqlite:" . $dbPath);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$pdo->exec("PRAGMA foreign_keys = ON;");
+
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS student (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        full_name TEXT,
+        email TEXT UNIQUE,
+        course TEXT,
+        profpic_path TEXT
     );
+");
 
-    $pdo->exec("CREATE DATABASE IF NOT EXISTS enrollment_system");
-    echo "Database Created";
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS faculty (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        full_name TEXT,
+        email TEXT UNIQUE
+    );
+");
 
-    createTables($pdo);
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS subject (
+        subject_code TEXT PRIMARY KEY,
+        subject_name TEXT,
+        faculty_id INTEGER,
+        schedule_day TEXT,
+        time_start TEXT,
+        time_end TEXT,
+        FOREIGN KEY (faculty_id) REFERENCES faculty(id)
+            ON DELETE SET NULL
+    );
+");
 
-} catch(PDOException $err) {
-    die("Database Initialization Failed: ". $err->getMessage());
-}
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS enrollment (
+        student_id INTEGER,
+        subject_code TEXT,
+        PRIMARY KEY (student_id, subject_code),
+        FOREIGN KEY (student_id) REFERENCES student(id)
+            ON DELETE CASCADE,
+        FOREIGN KEY (subject_code) REFERENCES subject(subject_code)
+            ON DELETE CASCADE
+    );
+");
 
-function createTables(PDO $pdo) {
-    $pdo->exec("USE enrollment_system");
-    $pdo->exec("
-        CREATE TABLE IF NOT EXISTS student(
-            id int primary key auto_increment,
-            full_name varchar(100),
-            email varchar(100) unique,
-            course varchar(50),
-            profpic_path varchar(255)
-        );
-
-        CREATE TABLE IF NOT EXISTS faculty(
-            id int primary key auto_increment,
-            full_name varchar(100),
-        );
-        
-        CREATE TABLE IF NOT EXISTS subject(
-            subject_code varchar(15) primary key,
-            subject_name varchar(100),
-            faculty_id int,
-            foreign key (faculty_id) references faculty(id)
-                on delete set null
-                on update cascade
-        );
-
-        CREATE TABLE IF NOT EXISTS enrollment(
-            student_id int,
-            subject_code varchar(15),
-            primary key (student_id,subject_code),
-            foreign key (student_id) references student(id)
-                on delete cascade
-                on update cascade,
-            foreign key (subject_code) references subject(subject_code)
-                on delete cascade,
-                on update cascade
-        );
-
-        CREATE TABLE IF NOT EXISTS class_schedule(
-            id int primary key auto_increment,
-            subject_code varchar(15),
-            schedule_day varchar(10),
-            time_start time,
-            time_end time,
-            unique (subject_code,schedule_day,time_start),
-            foreign key (subject_code) references subject(subject_code)
-                on delete cascade
-                on update cascade
-        );
-
-        CREATE TABLE IF NOT EXISTS faculty(
-            id int primary key auto_increment,
-            full_name varchar(100),
-        );
-    ");
-}
-?>
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS class_schedule (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        subject_code TEXT,
+        schedule_day TEXT,
+        time_start TEXT,
+        time_end TEXT,
+        UNIQUE (subject_code, schedule_day, time_start),
+        FOREIGN KEY (subject_code) REFERENCES subject(subject_code)
+            ON DELETE CASCADE
+    );
+");

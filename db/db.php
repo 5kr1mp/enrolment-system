@@ -1,16 +1,8 @@
 <?php
 
-$dbHost = getenv("DB_HOST") ?? "localhost";
-$dbUser = getenv("DB_USER") ?? "root";
-$dbPass = getenv("DB_PASS") ?? "";
-$dbName = "enrollment_system";
 
 try {
-    $pdo = new PDO(
-        "mysql:host=$host;dbname=$dbName;charset=utf8mb4",
-        $dbUser,
-        $dbPass
-    );
+    $pdo = new PDO("sqlite:".__DIR__."/database.db");
 
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
