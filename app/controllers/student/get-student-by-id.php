@@ -24,7 +24,7 @@ try {
 
     $stmt->execute([$studentId]);
 
-    $rows = $stmt->fetch(PDO::FETCH_OBJ);
+    $rows = $stmt->fetch(PDO::FETCH_ASSOC);
 
     echo json_encode([
         "success" => true,

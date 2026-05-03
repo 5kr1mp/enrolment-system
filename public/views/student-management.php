@@ -79,9 +79,10 @@ include "../../config/config.php";
     <!-- OVERLAYYY -->
     <div id="overlay" class="hidden">
         <div id="add-student-dialog">
-            <h2>Add Student</h2>
+            <h2 id="dialog-title">Add Student</h2>
             <hr>
-            <form action="routes/api.php?route=students.create" method="POST" class="flex flex-col gap-1">
+            <h3 id="id_heading">Student ID : <span id="student_id"></span></h3>
+            <form action="" method="POST" class="flex flex-col gap-1">
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" name="full_name" required>
@@ -121,6 +122,7 @@ include "../../config/config.php";
             </form>
         </div>
     </div>
+
     <!-- HEADER -->
     <!-- HEADER -->
     <!-- HEADER -->
@@ -141,10 +143,10 @@ include "../../config/config.php";
         <!-- CONTROLS -->
         <!-- CONTROLS -->
         <div id="controls" class="flex flex-row just-between">
-            <form action="index.php" method="get" class="flex flex-row items-center">
+            <form action="student-management.php" method="get" class="flex flex-row items-center">
                 <div>
                     <label for="search">Search Student: </label>
-                    <input type="text" name="s" id="search">
+                    <input type="text" name="s" id="search" placeholder="Name...">
                 </div>
                 <button id="search-btn" class="btn-1" type="submit">
                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" stroke-width="0.5" stroke="currentColor"/></svg>
@@ -177,13 +179,44 @@ include "../../config/config.php";
             </table>
         </div>
     </main>
+    <script src="/enrollment-system/public/resources/scripts/script.js"></script>
     <script>
-        function openModal(id) {
-            document.getElementById(id).classList.remove("hidden");
+        const tbody = document.querySelector('tbody');
+        const addStudentBtn = document.querySelector('#add-student'); 
+        const searchBtn = document.querySelector('#add-student'); 
+
+        function loadStudents(){
+
         }
 
-        function closeModal(id) {
-            document.getElementById(id).classList.add("hidden");
+        function createStudentRow(student){
+            document.getElementById
+        }
+
+        function openEditStudent(student) {
+
+            show('overlay');
+
+            document.getElementById('student-modal-title').innerText = "Edit Student";
+
+            document.querySelector('input[name="full_name"]').value = student.full_name;
+            document.querySelector('input[name="email"]').value = student.email;
+            document.querySelector('select[name="course"]').value = student.course;
+
+            document.getElementById('student_id').value = student.id;
+            show('id_heading')
+        }
+
+        function openAddStudent(){
+            show('overlay');
+
+            document.getElementById('student-modal-title').innerText = "Add Student";
+
+            document.querySelector('input[name="full_name"]').value = "";
+            document.querySelector('input[name="email"]').value = "";
+            document.querySelector('select[name="course"]').value = "";
+
+            hide('id_heading');
         }
     </script>
 </body>

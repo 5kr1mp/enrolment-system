@@ -35,7 +35,7 @@ try {
 
     $stmt->execute([$subject_code]);
 
-    $rows = $stmt->fetch(PDO::FETCH_OBJ);
+    $rows = $stmt->fetch(PDO::FETCH_ASSOC);
 
     echo json_encode([
         "success" => true,

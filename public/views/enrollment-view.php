@@ -29,7 +29,7 @@ include "../../config/config.php";
             background-color: black;
         }
 
-        .btn-1, btn-2,btn-3 {
+        .btn-1, .btn-2,.btn-3 {
             padding:0.5rem
         }
 
@@ -152,9 +152,9 @@ include "../../config/config.php";
             <h3>Student Information</h3>
 
             <div class="flex flex-col gap-1">
-                <div><strong>ID:</strong> 2026-0001</div>
-                <div><strong>Name:</strong> John Doe</div>
-                <div><strong>Course:</strong> BSIT</div>
+                <div><strong>ID:</strong> <span></span></div>
+                <div><strong>Name:</strong> <span></span> </div>
+                <div><strong>Course:</strong> <span></span></div>
             </div>
         </section>
 
@@ -173,20 +173,6 @@ include "../../config/config.php";
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>IT101</td>
-                        <td>Intro to IT</td>
-                        <td>Dr. Smith</td>
-                        <td>Monday</td>
-                        <td>08:00 - 09:30</td>
-                    </tr>
-                    <tr>
-                        <td>CS102</td>
-                        <td>Programming</td>
-                        <td>Prof. Lee</td>
-                        <td>Wednesday</td>
-                        <td>10:00 - 12:00</td>
-                    </tr>
                 </tbody>
             </table>
         </section>
